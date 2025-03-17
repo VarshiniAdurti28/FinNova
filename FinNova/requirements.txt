@@ -1,0 +1,6 @@
+django-environ
+pymysql
+django
+pyotp
+qrcode[PIL]
+pillow
