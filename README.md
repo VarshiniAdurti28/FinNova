@@ -1,0 +1,2 @@
+# FinNova
+DBMS mini proj
