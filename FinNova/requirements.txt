@@ -4,3 +4,4 @@ django
 pyotp
 qrcode[PIL]
 pillow
+psycopg2-binary

@@ -86,8 +86,8 @@ WSGI_APPLICATION = 'FinNova.wsgi.application'
 pymysql.install_as_MySQLdb()
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'defaultdb',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'finnova',
         'USER': env('DB_USERNAME'),
         'PASSWORD': env('DB_PASSWORD'),
         'HOST': env('HOST'),
