@@ -1,17 +1,26 @@
 {%extends 'layout.html'%}
-
+{%load static%}
 {%block title%}
     FinNova | Home
 {%endblock%}
 
-{%block content%}
-    <div class="flex flex-col items-center ms-50  h-screen text-white">
-        <p class="my-7">
-            FinNova - Your Money, Your Safety, Our Priority
-            <br>
-        </p>
+{% block scripts %}
+    <script src="{% static 'js/animate.js' %}"></script>
+{%endblock%}
 
-        <a class="my-7" href="myApp/login">Login</a>
-    </div>
-   
+
+{%block content%}
+
+    <div class="flex flex-col justify-center align-middle mx-auto">
+    <h1 id="hero-title" class="tracking-wider text-5xl md:text-6xl text-indigo-950 font-bold">
+        Welcome to <span class="text-indigo-700 ">FinNova</span>
+    </h1>
+    <p id="hero-tagline" class="mt-4 text-3xl  text-black">
+        FinNova - Your Money, Your Safety, Our Priority
+    </p>
+    <a href="{% url 'myApp:login' %}" class="my-10 shadow-2xl inline-block px-9 py-3 bg-indigo-600 text-white mx-auto font-medium rounded-xl hover:bg-indigo-700 transition duration-300">
+        Get Started
+    </a>
+</div>
+  
 {%endblock%}

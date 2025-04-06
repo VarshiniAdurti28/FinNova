@@ -11,11 +11,11 @@
         {%endblock%}
     </title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
  
 </head>
 <body class="">
-    <section class="bg-[url({%static 'img/bg.jpg'%})]">
+    <section class="flex flex-col justify-center align-middle bg-[radial-gradient(circle,_rgba(155,175,198,1)_0%,_rgba(176,208,225,1)_24%,_rgba(177,183,221,1)_56%,_rgba(148,155,233,1)_100%)] min-h-screen">
     {%block content%}
     {%endblock%}
     </section>
