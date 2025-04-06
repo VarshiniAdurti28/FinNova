@@ -19,6 +19,7 @@ from django.http import HttpResponse
 from django.utils.timezone import now
 from django.contrib import messages
 from .models import PasswordResetRequests
+from django.contrib.auth import update_session_auth_hash
 
 @login_required
 def mfa_qr(request):
@@ -105,4 +106,24 @@ def trigger_password_reset(request):
     messages.info(request, "A dummy password has been sent to your email.")
     return redirect('reset_password')
 
+@login_required
+def reset_password_view(request):
+    user = request.user
+    if request.method == 'POST':
+        dummy_password_input = request.POST.get('dummy_password')
+        new_password = request.POST.get('new_password')
+        confirm_password = request.POST.get('confirm_password')
+        if new_password != confirm_password:
+            messages.error(request, "New password and confirmation do not match.")
+            return render(request, 'reset_password.html')
+        if dummy_password_input != user.dummy_password:
+            messages.error(request, "Invalid dummy password.")
+            return render(request, 'reset_password.html')
+        user.set_password(new_password)
+        user.dummy_password = None  # clear the dummy password after successful reset
+        user.save()
+        update_session_auth_hash(request, user)  # Prevent logout after password change
+        messages.success(request, "Your password has been updated successfully!")
+        return redirect('dashboard')  # Change 'dashboard' to your desired post-reset view
+    return render(request, 'reset_password.html')
 
