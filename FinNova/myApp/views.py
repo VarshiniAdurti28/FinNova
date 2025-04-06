@@ -120,10 +120,77 @@ def reset_password_view(request):
             messages.error(request, "Invalid dummy password.")
             return render(request, 'reset_password.html')
         user.set_password(new_password)
-        user.dummy_password = None  # clear the dummy password after successful reset
+        user.dummy_password = None 
         user.save()
-        update_session_auth_hash(request, user)  # Prevent logout after password change
+        update_session_auth_hash(request, user)  
         messages.success(request, "Your password has been updated successfully!")
-        return redirect('dashboard')  # Change 'dashboard' to your desired post-reset view
+        return redirect('dashboard')  
     return render(request, 'reset_password.html')
 
+def track_failed_login(username):
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT user_id FROM myApp_user WHERE username = %s", [username])
+        row = cursor.fetchone()
+        if not row:
+            return  
+        user_id = row[0]
+        cursor.execute("""
+            SELECT attempt_id, attempts, last_attempt 
+            FROM myApp_failedloginattempts 
+            WHERE user_id = %s 
+            ORDER BY last_attempt DESC LIMIT 1
+        """, [user_id])
+        record = cursor.fetchone()
+        now = timezone.now()
+        if record:
+            attempt_id, attempts, last_attempt = record
+            if last_attempt.date() == now.date():
+                attempts += 1
+                cursor.execute("""
+                    UPDATE myApp_failedloginattempts 
+                    SET attempts = %s, last_attempt = %s 
+                    WHERE attempt_id = %s
+                """, [attempts, now, attempt_id])
+            else:
+                attempts = 1   
+                cursor.execute("""
+                    INSERT INTO myApp_failedloginattempts (user_id, attempts, last_attempt)
+                    VALUES (%s, %s, %s)
+                """, [user_id, attempts, now])
+        else:
+            cursor.execute("""
+                INSERT INTO myApp_failedloginattempts (user_id, attempts, last_attempt)
+                VALUES (%s, %s, %s)
+            """, [user_id, 1, now])
+        if attempts >= 7:
+            handle_suspicious_activity(user_id)
+            
+def reset_failed_attempts(user_id):
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            UPDATE myApp_failedloginattempts 
+            SET attempts = 0 
+            WHERE user_id = %s
+        """, [user_id])
+        
+def handle_suspicious_activity(user_id):
+    dummy_password = generate_dummy_password()
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT email, username FROM myApp_user WHERE user_id = %s", [user_id])
+        result = cursor.fetchone()
+        if not result:
+            return
+        email, username = result
+        from django.contrib.auth.hashers import make_password
+        hashed = make_password(dummy_password)
+        cursor.execute("""
+            UPDATE myApp_user 
+            SET password_hash = %s 
+            WHERE user_id = %s
+        """, [hashed, user_id])
+        send_mail(
+            subject="FinNova: Suspicious Login Attempt Detected",
+            message=f"Hi {username},\n\nWe detected multiple failed login attempts to your account. Your password has been reset as a security measure.\n\nTemporary Password: {dummy_password}\n\nPlease login and change it immediately.",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[email]
+        )
