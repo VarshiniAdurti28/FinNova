@@ -14,6 +14,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import login, authenticate
 from .forms import LoginForm
 
+import random, string
+from django.http import HttpResponse
+from django.utils.timezone import now
+from django.contrib import messages
+from .models import PasswordResetRequests
+
 @login_required
 def mfa_qr(request):
     user = request.user  
@@ -73,5 +79,30 @@ def login_user(request):
     return render(request, "login.html", {"form": form})
 
 
+def generate_dummy_password(length=10):
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+
+@login_required
+def trigger_password_reset(request):
+    """
+    Call this view when the user clicks the reset button on the login page.
+    It generates a dummy password, updates the user record, sends an email,
+    and then redirects the user to the /reset_password page.
+    """
+    user = request.user
+    dummy_password = generate_dummy_password()
+    
+    user.set_password(dummy_password)
+    user.reset_token = dummy_password
+    user.save()
+
+    send_mail(
+        subject='Your Password Reset Dummy Password',
+        message=f'Use this dummy password to reset your password: {dummy_password}',
+        from_email=None, 
+        recipient_list=[user.email],
+    )
+    messages.info(request, "A dummy password has been sent to your email.")
+    return redirect('reset_password')
 
 
