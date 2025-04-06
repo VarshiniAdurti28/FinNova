@@ -20,6 +20,7 @@ from django.utils.timezone import now
 from django.contrib import messages
 from .models import PasswordResetRequests
 from django.contrib.auth import update_session_auth_hash
+from django.db import connection
 
 @login_required
 def mfa_qr(request):
