@@ -71,10 +71,12 @@ def login_user(request):
         if form.is_valid():
             user = authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password"])
             if user:
+                reset_failed_attempts(user.id)
                 login(request, user)
                 return generate_otp(request)
             else:
-                form.add_error(None, "Invalid username or password") 
+                track_failed_login(username)
+                form.add_error(None, "Ooops! Invalid credentials") 
     else:
         form = LoginForm()
     return render(request, "login.html", {"form": form})
