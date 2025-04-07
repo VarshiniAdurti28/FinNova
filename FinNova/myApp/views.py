@@ -73,18 +73,16 @@ def otp_verification(request):
 def login_user(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
+        print(form)
         if form.is_valid():
             user = authenticate(username=form.cleaned_data["username"], password=form.cleaned_data["password"])
+            print(user)
             if user:
-                reset_failed_attempts(user.id)
+                reset_failed_attempts(user.user_id)
                 login(request, user)
                 return generate_otp(request)
             else:
-<<<<<<< HEAD
                 track_failed_login(form.cleaned_data['username'])
-=======
-                track_failed_login(user.username)
->>>>>>> 43102769810a1f4dca61ec5a3ee684a4f18762dd
                 form.add_error(None, "Ooops! Invalid credentials") 
     else:
         form = LoginForm()
