@@ -80,7 +80,11 @@ def login_user(request):
                 login(request, user)
                 return generate_otp(request)
             else:
+<<<<<<< HEAD
                 track_failed_login(form.cleaned_data['username'])
+=======
+                track_failed_login(user.username)
+>>>>>>> 43102769810a1f4dca61ec5a3ee684a4f18762dd
                 form.add_error(None, "Ooops! Invalid credentials") 
     else:
         form = LoginForm()
@@ -90,7 +94,7 @@ def login_user(request):
 def generate_dummy_password(length=10):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
-@login_required
+# @login_required
 def trigger_password_reset(request):
     """
     Call this view when the user clicks the reset button on the login page.
