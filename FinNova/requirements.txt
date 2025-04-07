@@ -6,3 +6,4 @@ qrcode[PIL]
 pillow
 psycopg2-binary
 django-extensions
+python-decouple

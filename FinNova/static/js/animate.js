@@ -12,7 +12,7 @@ gsap.from("#hero-tagline", {
     y: 20,
     opacity: 0,
     delay: 0.5,
-    duration: 1.2,
+    duration: 1,
     ease: "power2.out"
 });
 

@@ -14,6 +14,7 @@ from pathlib import Path
 import os
 import environ
 import pymysql
+# from decouple import config
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -126,6 +127,9 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True  
 EMAIL_HOST_USER = env('email_id')
 EMAIL_HOST_PASSWORD = env('app_pass')
+
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+
 
 
 

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loan Application - FinNova</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- The following is in CSS -->
+    <!-- <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #f6f7fb;
+            color: #1e1e2f;
+        }
+
+        header {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 80px;
+            margin-right: 10px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        label {
+            display: block;
+            margin-top: 1rem;
+            font-weight: 600;
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: #456eff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-top: 2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #3655cc;
+        }
+
+        .message {
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+    </style> -->
+    <!-- The following is in Tailwind -->
+
+<body
+    class="font-[Inter] bg-[url('./Background.png')] bg-cover bg-center bg-no-repeat min-h-screen flex items-center justify-center">
+    <div class="w-full max-w-md bg-white p-8 rounded-[12px] shadow-lg">
+        <div class="mb-6">
+            <img src="./Logo.png" alt="FinNova Logo" class="mx-auto h-16 mb-2">
+            <!-- <h1 class="text-2x1 font-bold text-gray-800">FinNova</h1>
+            <p class="text-sm text-gray-500">Empowering your finances</p> -->
+        </div>
+        <form action="" id="loanForm" class="space-y-5">
+            <div>
+                <label for="loanAmount" class="font-semibold">Loan Amount</label>
+                <input type="number" id="loanAmount" name="loanAmount"
+                    class="w-full p-2.5 my-2 mb-5 border border-gray-300 rounded-lg" required>
+            </div>
+            <div>
+                <label for="assets" class="font-semibold">Total Asset Value</label>
+                <input type="number" id="assets" name="assets"
+                    class="w-full p-2.5 my-2 mb-5 border border-gray-300 rounded-lg" required>
+            </div>
+            <div>
+                <label for="incomeBracket" class="font-semibold">Income Bracket</label>
+                <select name="incomeBracket" id="incomeBracket">
+                    <option value="" disabled selected>Select Income Bracket</option>
+                    <option value="low">Less than Rs.12,00,000</option>
+                    <option value="medium">Rs.12,00,000 to Rs.50,00,000</option>
+                    <option value="high">More than Rs.50,00,000</option>
+                </select>
+            </div>
+
+            <button type="submit"
+                class="bg-blue-600 text-white px-5 py-3 rounded-lg font-bold hover:bg-blue-800 transition-colors duration-200">
+                Submit Loan Request
+            </button>
+
+            <div id="resultMessage" class="mt-5 font-semibold"></div>
+        </form>
+    </div>
+
+</body>
+</head>
+
+<body>
+    <header>
+        <!-- <div class="logo">
+            <img src="./Logo.png" alt="FinNova Logo">
+        </div>
+        <div>
+            <button onclick="window.location.href='/dashboard'">Back to Dashboard</button>
+        </div>
+    </header>
+    <div class="container">
+        <h1>Apply for a Loan</h1>
+        <form id="loanForm">
+            <label for="loanAmount">Loan Amount</label>
+            <input type="number" id="loanAmount" name="loanAmount" required>
+
+            <label for="assets">Total Asset Value</label>
+            <input type="number" id="assets" name="assets" required>
+
+            <label for="incomeBracket">Income Bracket</label>
+            <select name="incomeBracket" id="incomeBracket" required>
+                <option value="" disabled selected>Select the income bracket</option>
+                <option value="low">Less than Rs.12,00,000</option>
+                <option value="medium">Rs.12,00,000 to Rs.50,00,000</option>
+                <option value="high">More than Rs.50,00,000</option>
+            </select>
+
+            <button type="submit">Submit Loan Request</button>
+            <div class="message" id="resultMessage"></div>
+        </form>
+    </div> -->
+        <script>
+            document.getElementById('loanForm').addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const loanAmount = parseFloat(document.getElementById('loanAmount').value);
+                const assetValue = parseFloat(document.getElementById('assets').value);
+                const income = document.getElementById('incomeBracket').value;
+                const resultDiv = document.getElementById('resultMessage');
+                // -------------------------
+                console.log({ loanAmount, assetValue, income });
+                if (isNaN(loanAmount) || loanAmount <= 0) {
+                    resultDiv.textContent = 'Please enter a valid loan amount.';
+                    resultDiv.style.color = 'red';
+                    return;
+                }
+                if (isNaN(assetValue) || assetValue <= 0) {
+                    resultDiv.textContent = 'Please enter a valid asset value.';
+                    resultDiv.style.color = 'red';
+                    return;
+                }
+                if (!income) {
+                    resultDiv.textContent = 'Please select an income bracket.';
+                    resultDiv.style.color = 'red';
+                    return;
+                }
+                // ----------------------------
+
+                if (loanAmount > assetValue) {
+                    resultDiv.textContent = 'Loan request denied: Loan amount exceeds asset value.';
+                    resultDiv.style.color = 'red';
+                    return;
+                }
+
+                if (income === 'low' && loanAmount > 1000000) {
+                    resultDiv.textContent = 'Loan request denied: Exceeds income bracket limit.';
+                    resultDiv.style.color = 'red';
+                    return;
+                }
+
+                if (income === 'medium' && loanAmount > 5000000) {
+                    resultDiv.textContent = 'Loan request denied: Exceeds income bracket limit.';
+                    resultDiv.style.color = 'red';
+                    return;
+                }
+
+                //Backend! Modify acc. to others naming convention
+                //################################################
+
+                // try{
+                const response = await fetch('http://localhost:5000/api/loan-request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ loanAmount, assetValue, income })
+                });
+
+                const result = await response.json();
+                resultDiv.textContent = result.message;
+                resultDiv.style.color = result.success ? 'green' : 'red';
+            });
+            // } catch(error) {
+            //     resultDiv.textContent = 'Error submitting loan request.';
+            //     resultDiv.style.color = 'red';
+            //     return;
+            // });
+        </script>
+</body>
+
+</html>
