@@ -70,6 +70,47 @@ def otp_verification(request):
  
     return render(request, "otp_verify.html")
 
+def generate_dummy_password(length=10):
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+
+def reset_failed_attempts(user_id):
+    FailedLoginAttempts.objects.filter(user_id=user_id).update(attempts=0)
+
+def handle_suspicious_activity(user):
+    dummy_password = generate_dummy_password()
+    user.set_password(dummy_password)
+    user.save()
+
+    send_mail(
+        subject="FinNova: Suspicious Login Attempt Detected",
+        message=f"Hi {user.username},\n\nWe detected multiple failed login attempts to your account. Your password has been reset.\n\nTemporary Password: {dummy_password}\n\nPlease login and change it immediately.",
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[user.email]
+    )
+
+
+
+
+def track_failed_login(username):
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return
+
+    now = timezone.now()
+    attempt, created = FailedLoginAttempts.objects.get_or_create(user=user)
+
+    if attempt.last_attempt_time and attempt.last_attempt_time.date() == now.date():
+        attempt.attempts = F('attempts') + 1
+    else:
+        attempt.attempts = 1
+
+    attempt.last_attempt_time = now
+    attempt.save()
+    attempt.refresh_from_db()
+    if attempt.attempts >= 7:
+        handle_suspicious_activity(user)
+
 def login_user(request):
     if request.method == "POST":
         form = LoginForm(request.POST)
@@ -89,10 +130,6 @@ def login_user(request):
     return render(request, "login.html", {"form": form})
 
 
-def generate_dummy_password(length=10):
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
-
-# @login_required
 def trigger_password_reset(request):
     """
     Call this view when the user clicks the reset button on the login page.
@@ -136,49 +173,11 @@ def reset_password_view(request):
     return render(request, 'reset_password.html')
 
 
+def loans_page(request):
+    return render(request, 'loans.html')
 
-def track_failed_login(username):
-    try:
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
-        return
-
-    now = timezone.now()
-    attempt, created = FailedLoginAttempts.objects.get_or_create(user=user)
-
-    if attempt.last_attempt_time and attempt.last_attempt_time.date() == now.date():
-        attempt.attempts = F('attempts') + 1
-    else:
-        attempt.attempts = 1
-
-    attempt.last_attempt_time = now
-    attempt.save()
-    attempt.refresh_from_db()
-    if attempt.attempts >= 7:
-        handle_suspicious_activity(user)
-
-            
-def reset_failed_attempts(user_id):
-    FailedLoginAttempts.objects.filter(user_id=user_id).update(attempts=0)
-
-def handle_suspicious_activity(user):
-    dummy_password = generate_dummy_password()
-    user.set_password(dummy_password)
-    user.save()
-
-    send_mail(
-        subject="FinNova: Suspicious Login Attempt Detected",
-        message=f"Hi {user.username},\n\nWe detected multiple failed login attempts to your account. Your password has been reset.\n\nTemporary Password: {dummy_password}\n\nPlease login and change it immediately.",
-        from_email=settings.DEFAULT_FROM_EMAIL,
-        recipient_list=[user.email]
-    )
-
-
-def serve_form(request):
-    file_path = os.path.join(settings.BASE_DIR, 'loans.html')
-    if os.path.exists(file_path):
-        return FileResponse(open(file_path, 'rb'), content_type='text/html')
-    return HttpResponse("File not found", status=404)
+def dashboard(request):
+    return render(request, 'index.html')
 
 @csrf_exempt
 @require_POST

@@ -1,0 +1,329 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div
+      class="overflow-hidden pt-2 pb-6 pl-12 bg-gray-100 rounded-[45px] max-md:pl-5"
+    >
+      <header
+        class="flex gap-5 justify-between items-start w-full max-w-[1298px] max-md:max-w-full"
+      >
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/TEMP/07a7ac2fa6cc3b374d189a0b57267bd2595123a5?placeholderIfAbsent=true&apiKey=320f57d6763e44268da2de3a2ad8b2c2"
+          alt="FinNova Empowering your finances"
+          class="object-contain w-[426px] h-[174px]"
+        />
+
+        <nav class="flex gap-7 mt-8 font-light">
+          <button
+            class="flex gap-1.5 items-center h-[38px] px-4 text-xl text-black whitespace-nowrap bg-violet-300 rounded-lg border border-black border-solid"
+            aria-label="Help"
+          >
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/fc32c22845ca0eb49b6f2c092dcf4889688d4261?placeholderIfAbsent=true&apiKey=320f57d6763e44268da2de3a2ad8b2c2"
+              alt=""
+              class="object-contain shrink-0 w-6 aspect-square"
+            />
+            <span class="leading-none whitespace-nowrap">Help</span>
+          </button>
+
+          <div
+            class="flex flex-auto gap-2.5 px-4 py-3 text-sm rounded-xl border border-solid bg-neutral-100 border-neutral-100 text-blue-950"
+          >
+            <img
+              src="https://cdn.builder.io/api/v1/image/assets/TEMP/3425dc98aa2e8b2b223aa6c83ded769753225fc2?placeholderIfAbsent=true&apiKey=320f57d6763e44268da2de3a2ad8b2c2"
+              alt="Search"
+              class="object-contain shrink-0 w-3.5 rounded-xl aspect-square"
+            />
+            <input
+              type="search"
+              placeholder="Quick Search..."
+              class="my-auto basis-auto bg-transparent border-none outline-none"
+            />
+          </div>
+        </nav>
+
+        <div class="flex gap-3 items-center mt-8">
+          <!-- Calendar Button -->
+<button
+  aria-label="Calendar"
+  class="flex items-center justify-center w-8 h-8 text-xl bg-indigo-200 rounded-full hover:bg-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+>
+  🗓
+</button>
+
+<!-- Notifications Button -->
+<button
+  aria-label="Notifications"
+  class="relative flex items-center justify-center w-8 h-8 text-xl bg-indigo-200 rounded-full hover:bg-indigo-300 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+>
+  📢
+  <!-- Notification dot -->
+  <span class="absolute top-0.5 right-0.5 w-2.5 h-2.5 bg-blue-700 rounded-full border border-white"></span>
+</button>
+
+          <img
+            src="https://cdn.builder.io/api/v1/image/assets/TEMP/00e52f1cad9ce99b0940253a35d7499e1ece1af9?placeholderIfAbsent=true&apiKey=320f57d6763e44268da2de3a2ad8b2c2"
+            alt="Profile"
+            class="object-contain shrink-0 aspect-[0.91] w-[31px]"
+          />
+          <a href="#profile" class="self-stretch text-xs font-light text-black"
+            >Go to my Profile</a
+          >
+        </div>
+      </header>
+
+      <main class="mt-3.5 max-md:max-w-full">
+        <div class="flex gap-5 max-md:flex-col text-black">
+          <!-- Sidebar Navigation -->
+          <nav class="w-3/12 max-md:ml-0 max-md:w-full">
+            <div
+              class="flex flex-col items-start w-full text-black max-md:mt-6 text-black"
+            >
+              <div
+                class="flex gap-7 text-xs font-bold leading-none whitespace-nowrap text-black"
+              >
+                <span>Dashboard</span>
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/5aca53ef61f2f0c914ec07909a3736b5254c6e32?placeholderIfAbsent=true&apiKey=320f57d6763e44268da2de3a2ad8b2c2"
+                  alt=""
+                  class="object-contain shrink-0 aspect-[0.65] w-[11px]"
+                />
+              </div>
+
+              <h1 class="mt-2.5 text-3xl font-bold w-[277px]">
+                Welcome Back<br />Rohan !<br />
+              </h1>
+
+              <nav
+                class="flex overflow-hidden relative flex-col items-start self-stretch mt-4 w-full text-xl text-center rounded-xl aspect-[0.522] min-h-[628px]"
+              >
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets/TEMP/1ca5ac59a0cde04ab8a8856ec182c1233c151522?placeholderIfAbsent=true&apiKey=320f57d6763e44268da2de3a2ad8b2c2"
+                  alt=""
+                  class="object-cover absolute inset-0 size-full"
+                />
+
+                <a
+  href="{%url 'myApp:loans_page'%}"
+  class="relative w-[398px] h-[58px] flex items-center justify-center rounded-xl bg-gradient-to-r from-[#CEB8F0] from-50% to-[#7124EF] to-50% opacity-20 hover:opacity-100 transition-opacity"
+>Apply for a loan</a>
+
+<a
+  href="#payment"
+  class="relative w-[398px] h-[58px] flex items-center justify-center rounded-xl bg-gradient-to-r from-[#CEB8F0] from-50% to-[#7124EF] to-50% opacity-20 hover:opacity-100 transition-opacity"
+>Make a Payment</a>
+
+<a
+  href="#ticket"
+  class="relative w-[398px] h-[58px] flex items-center justify-center rounded-xl bg-gradient-to-r from-[#CEB8F0] from-50% to-[#7124EF] to-50% opacity-20 hover:opacity-100 transition-opacity"
+>Raise a ticket</a>
+
+<a
+  href="#loan"
+  class="relative w-[398px] h-[58px] flex items-center justify-center rounded-xl bg-gradient-to-r from-[#CEB8F0] from-50% to-[#7124EF] to-50% opacity-20 hover:opacity-100 transition-opacity"
+>Loan details</a>
+
+<a
+  href="#billing"
+  class="relative w-[398px] h-[58px] flex items-center justify-center rounded-xl bg-gradient-to-r from-[#CEB8F0] from-50% to-[#7124EF] to-50% opacity-20 hover:opacity-100 transition-opacity"
+>Billing and payments</a>
+
+<a
+  href="#documents"
+  class="relative w-[398px] h-[58px] flex items-center justify-center whitespace-nowrap rounded-xl bg-gradient-to-r from-[#CEB8F0] from-50% to-[#7124EF] to-50% opacity-20 hover:opacity-100 transition-opacity"
+>Documents</a>
+
+<a
+  href="#privacy"
+  class="relative w-[398px] h-[58px] flex items-center justify-center rounded-xl bg-gradient-to-r from-[#CEB8F0] from-50% to-[#7124EF] to-50% opacity-20 hover:opacity-100 transition-opacity"
+>Privacy and security</a>
+
+<a
+  href="#settings"
+  class="relative w-[398px] h-[58px] flex items-center justify-center whitespace-nowrap rounded-xl bg-gradient-to-r from-[#CEB8F0] from-50% to-[#7124EF] to-50% opacity-20 hover:opacity-100 transition-opacity"
+>Settings</a>
+
+              </nav>
+            </div>
+          </nav>
+
+          <!-- Rest of the content remains the same -->
+          <!-- Main Content Area -->
+          <div class="ml-5 w-9/12 max-md:ml-0 max-md:w-full">
+            <div class="flex flex-col items-start w-full max-md:mt-6 max-md:max-w-full">
+  <!-- User Info and Bank Details Cards -->
+  <section class="ml-3.5 max-w-full w-[849px]">
+    <div class="flex gap-5 max-md:flex-col">
+      
+      <!-- User Info Card -->
+      <article class="w-6/12 max-md:ml-0 max-md:w-full">
+        <div
+          class="flex flex-col justify-between h-[260px] grow items-start py-7 pr-20 pl-5 w-full text-sm font-light bg-white rounded-2xl max-md:pr-5 max-md:mt-10"
+        >
+          <h2 class="text-3xl text-blue-950 max-md:ml-1">User Info</h2>
+          <div class="mt-4 text-black">
+            Username : Rohan Sharma<br />
+            Email : Rohan56sharma@gmail.com<br />
+            Account Created on : Jan 21, 2020
+          </div>
+          <!-- Edit Personal Details Button -->
+<button
+  class="w-[212px] h-[44.27px] px-8 py-3.5 text-center text-white bg-blue-600 rounded-lg border border-black shadow-[0px_4px_4px_rgba(0,0,0,0.25)] text-sm transition-transform transition-colors duration-300 ease-in-out hover:bg-blue-700 hover:scale-105"
+>
+  Edit personal details
+</button>
+
+        </div>
+      </article>
+
+      <!-- Bank Details Card -->
+      <article class="ml-5 w-6/12 max-md:ml-0 max-md:w-full">
+        <div
+          class="flex flex-col justify-between h-[260px] grow items-start py-7 pr-20 pl-7 w-full text-sm font-light bg-white rounded-2xl max-md:px-5 max-md:mt-10 max-md:max-w-full"
+        >
+          <h2 class="text-3xl text-blue-950">Bank Account details</h2>
+          <div class="mt-4 text-black w-[250px]">
+            Account Number : **** **** 1234<br />
+            Type : Savings<br />
+            Total available balance : $63,48,100
+          </div>
+          <!-- View Full Statement Button -->
+<button
+  class="w-[226.73px] h-[44.27px] flex items-center justify-center text-white bg-blue-600 rounded-lg border border-black shadow-[0px_4px_4px_rgba(0,0,0,0.25)] text-sm transition-transform transition-colors duration-300 ease-in-out hover:bg-blue-700 hover:scale-105"
+>
+  View Full Statement
+</button>
+
+        </div>
+      </article>
+
+    </div>
+  </section>
+</div>
+
+              <!-- Support Tickets and Transactions -->
+<section class="self-stretch mt-2.5 w-full max-md:max-w-full">
+  <div class="flex gap-5 max-md:flex-col">
+    <!-- Left column: Tickets & Transactions -->
+    <div class="w-[73%] max-md:ml-0 max-md:w-full">
+      <div class="grow max-md:mt-8 max-md:max-w-full">
+        <div class="flex gap-5 flex-col">
+          <!-- Support Tickets -->
+          <article class="w-[84%] max-md:ml-0 max-md:w-full">
+            <div class="flex flex-col grow items-start py-5 pr-11 pl-5 mt-2.5 w-full font-light bg-white rounded-2xl max-md:px-5 max-md:mt-6 max-md:max-w-full">
+              <h2 class="text-3xl text-blue-950">Support tickets</h2>
+              <div class="self-stretch mt-5 text-xs leading-tight text-black min-h-[134px] max-md:max-w-full">
+                <table class="w-full bg-white rounded border border-indigo-300 border-solid">
+                  <thead>
+                    <tr class="font-semibold bg-blue-300">
+                      <th class="px-3 py-2.5 text-left border-t border-l border-zinc-400">Messages</th>
+                      <th class="px-3 py-2.5 text-left border-t border-l border-zinc-400">Status</th>
+                      <th class="px-3 py-2.5 text-left border-t border-l border-zinc-400">Created At</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="px-3 py-2.5 border-t border-l border-zinc-400">Issue with MFA login</td>
+                      <td class="px-3 py-2.5 text-blue-600 border-t border-l border-zinc-400">Open</td>
+                      <td class="px-3 py-2.5 border-t border-l border-zinc-400">06/25/2024</td>
+                    </tr>
+                    <tr>
+                      <td class="px-3 py-2.5 border-t border-l border-zinc-400">Transaction not reflected</td>
+                      <td class="px-3 py-2.5 text-green-600 border-t border-l border-zinc-400">Resolved</td>
+                      <td class="px-3 py-2.5 border-t border-l border-zinc-400">05/24/2024</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <button class="px-16 py-4 mt-4 text-sm text-white bg-blue-600 rounded-lg border border-black shadow max-md:px-5 hover:bg-blue-700 hover:scale-105 transition duration-300 ease-in-out">
+  View all tickets
+</button>
+
+            </div>
+          </article>
+
+          <!-- Recent Transactions -->
+          <article class="w-[84%] max-md:ml-0 max-md:w-full">
+            <div class="flex flex-col grow items-start py-5 pr-11 pl-5 mt-6 w-full font-light bg-white rounded-2xl max-md:px-5 max-md:mt-6 max-md:max-w-full">
+              <h2 class="text-3xl text-blue-950">Recent transactions</h2>
+              <div class="overflow-hidden mt-6 text-xs text-black bg-white border border-zinc-400 rounded w-full">
+                <table class="w-full">
+                  <thead>
+                    <tr class="font-semibold bg-blue-300">
+                      <th class="px-3 py-2.5 text-left border-t border-l border-zinc-400 w-[124px]">Date</th>
+                      <th class="px-3 py-2.5 text-left border-t border-l border-zinc-400">Amount</th>
+                      <th class="px-3 py-2.5 text-left border-t border-l border-zinc-400">To/From</th>
+                      <th class="px-3 py-2.5 text-left border-t border-l border-zinc-400">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="px-3 py-2.5 border-t border-l border-zinc-400">06/23/2024</td>
+                      <td class="px-3 py-2.5 text-emerald-700 border-t border-l border-zinc-400">$ -3871.91</td>
+                      <td class="px-3 py-2.5 border-t border-l border-zinc-400">Netflix</td>
+                      <td class="px-3 py-2.5 text-emerald-700 border-t border-l border-zinc-400">Completed</td>
+                    </tr>
+                    <tr>
+                      <td class="px-3 py-2.5 border-t border-l border-zinc-400">03/7/2024</td>
+                      <td class="px-3 py-2.5 text-yellow-500 border-t border-l border-zinc-400">$ -8345.21</td>
+                      <td class="px-3 py-2.5 border-t border-l border-zinc-400">Youtube Premium</td>
+                      <td class="px-3 py-2.5 text-yellow-500 border-t border-l border-zinc-400">Pending</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <!-- See All Transactions Button -->
+<button
+  class="px-12 py-3.5 mt-4 text-sm text-white bg-blue-600 rounded-lg border border-black shadow-[0px_4px_4px_rgba(0,0,0,0.25)] transition-transform transition-colors duration-300 ease-in-out hover:bg-blue-700 hover:scale-105"
+>
+  See all transactions
+</button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right-side Images -->
+<div class="ml-5 w-[27%] max-md:ml-0 max-md:w-full">
+  <!-- Existing Decorative Images -->
+ <!-- Illustrative image on the bottom of the page -->
+<div class="w-full flex justify-end mt-20">
+  <img
+    src="https://cdn.builder.io/api/v1/image/assets%2F320f57d6763e44268da2de3a2ad8b2c2%2Fcfa17a2229e2484aac43d97ff425475b"
+    alt="man with laptop"
+    class="h-[600px] w-[600px] rounded-xl mr-10 mb-10"
+  />
+</div>
+
+
+
+
+
+
+
+
+</div>
+
+
+ 
+</div>
+
+    </div>
+  </div>
+</section>
+
+
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+</html>

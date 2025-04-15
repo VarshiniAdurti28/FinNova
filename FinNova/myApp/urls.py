@@ -11,6 +11,8 @@ urlpatterns = [
     path('mfa_qr/', views.mfa_qr, name='mfa_qr'),
     path('trigger_reset/', views.trigger_password_reset, name='trigger_reset'),
     path('reset_password/', views.reset_password_view, name='reset_password'),
+    path('loans_page/', views.loans_page, name='loans_page'),
+    path('dashboard/', views.dashboard, name='dashboard'),
     # path('loan-request/', views.loan_request, name='loan_request'),
 
 

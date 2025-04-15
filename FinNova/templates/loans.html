@@ -1,3 +1,5 @@
+{%load static%}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -90,10 +92,10 @@
     <!-- The following is in Tailwind -->
 
 <body
-    class="font-[Inter] bg-[url('./Background.png')] bg-cover bg-center bg-no-repeat min-h-screen flex items-center justify-center">
+    class="font-[Inter] bg-[url('{%static 'img/Background.png'%}')] bg-cover bg-center bg-no-repeat min-h-screen flex items-center justify-center">
     <div class="w-full max-w-md bg-white p-8 rounded-[12px] shadow-lg">
         <div class="mb-6">
-            <img src="./Logo.png" alt="FinNova Logo" class="mx-auto h-16 mb-2">
+            <img src="{%static 'img/Logo.png'%}" alt="FinNova Logo" class="mx-auto h-16 mb-2">
             <!-- <h1 class="text-2x1 font-bold text-gray-800">FinNova</h1>
             <p class="text-sm text-gray-500">Empowering your finances</p> -->
         </div>
