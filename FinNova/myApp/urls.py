@@ -13,7 +13,6 @@ urlpatterns = [
     path('reset_password/', views.reset_password_view, name='reset_password'),
     path('loans_page/', views.loans_page, name='loans_page'),
     path('dashboard/', views.dashboard, name='dashboard'),
+    path('code_email/', views.code_email, name='code_email'),
     # path('loan-request/', views.loan_request, name='loan_request'),
-
-
 ]

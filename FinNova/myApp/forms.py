@@ -14,3 +14,9 @@ class LoginForm(forms.Form):
         password = cleaned_data.get("password")
         
         return cleaned_data
+
+from django.contrib.auth.forms import PasswordChangeForm
+
+class ResetPasswordForm(forms.Form):
+    new_password = forms.CharField(max_length=128, widget=forms.PasswordInput)
+    confirm_password = forms.CharField(max_length=128, widget=forms.PasswordInput)

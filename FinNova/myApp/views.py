@@ -152,25 +152,50 @@ def trigger_password_reset(request):
     messages.info(request, "A dummy password has been sent to your email.")
     return redirect('myApp:reset_password')
 
+def code_email(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        user = User.objects.filter(email=email).first()
+        if user:
+            # Generate a random verification code
+            verification_code = str(random.randint(100000, 999999))
+            # Store the verification code in the user's session
+            request.session['verification_code'] = verification_code
+            # Send the verification code to the user's email
+            send_mail(
+                'Verification Code',
+                f'Your verification code is: {verification_code}',
+                settings.EMAIL_HOST_USER,
+                [email],
+                fail_silently=False,
+            )
+            # Render the reset password page
+            return render(request, 'reset_password.html', {'email': email})
+        else:
+            return render(request, 'email.html', {'error': 'Invalid email address'})
+    else:
+        return render(request, 'email.html')
+
 def reset_password_view(request):
     user = request.user
     if request.method == 'POST':
-        dummy_password_input = request.POST.get('dummy_password')
-        new_password = request.POST.get('new_password')
-        confirm_password = request.POST.get('confirm_password')
-        if new_password != confirm_password:
-            messages.error(request, "New password and confirmation do not match.")
-            return render(request, 'reset_password.html')
-        if dummy_password_input != user.dummy_password:
-            messages.error(request, "Invalid dummy password.")
-            return render(request, 'reset_password.html')
-        user.set_password(new_password)
-        user.dummy_password = None 
-        user.save()
-        update_session_auth_hash(request, user)  
-        messages.success(request, "Your password has been updated successfully!")
+        # dummy_password_input = request.POST.get('dummy_password')
+        # new_password = request.POST.get('new_password')
+        # confirm_password = request.POST.get('confirm_password')
+        # if new_password != confirm_password:
+        #     messages.error(request, "New password and confirmation do not match.")
+        #     return render(request, 'reset_password.html')
+        # if dummy_password_input != "":#user.dummy_password:
+        #     messages.error(request, "Invalid dummy password.")
+        #     return render(request, 'reset_password.html')
+        # user.set_password(new_password)
+        # user.dummy_password = None 
+        # user.save()
+        # update_session_auth_hash(request, user)  
+        # messages.success(request, "Your password has been updated successfully!")
         return redirect('dashboard')  
-    return render(request, 'reset_password.html')
+    return render(request, 'index.html')
+
 
 
 def loans_page(request):
