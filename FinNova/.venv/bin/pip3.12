@@ -1,4 +1,4 @@
-#!/home/varshini-adurti/DBMS_Lab/mini_proj/.venv/bin/python3
+#!/home/varshini-adurti/DBMS_Lab/FinNova/FinNova/.venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys

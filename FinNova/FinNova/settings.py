@@ -131,6 +131,10 @@ EMAIL_HOST_PASSWORD = env('app_pass')
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+
+
 
 
 # Internationalization
