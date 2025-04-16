@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .models import OtpVerification, FailedLoginAttempts, PasswordResetRequests, User
+from .models import OtpVerification, FailedLoginAttempts, PasswordResetRequests, User, Accounts
 import random
 import uuid
 import qrcode
@@ -11,6 +11,8 @@ import base64
 from io import BytesIO
 from django.contrib.auth import login, authenticate
 from .forms import LoginForm
+
+import pyotp
 
 import random, string
 from django.http import JsonResponse, HttpResponse, FileResponse
@@ -24,7 +26,23 @@ from django.conf import settings
 import os
 import json
 from django.utils import timezone
-from django.db.models import F
+
+@login_required
+def verify_gcode(request):
+    if request.method == "POST":
+        code = request.POST.get("gcode")
+        user = request.user
+
+        totp = pyotp.TOTP(user.mfa_secret)
+
+        if totp.verify(code):
+            request.session['mfa_verified'] = True
+            return redirect('/myApp/dashboard')  
+        else:
+            return render(request, 'mfa_qr.html', {"error": "Invalid code."})
+    
+    return render(request, 'mfa_qr.html')
+
 
 @login_required
 def mfa_qr(request):
@@ -40,7 +58,6 @@ def mfa_qr(request):
     qr.save(stream, format="PNG")
     qr_bytes = stream.getvalue()
 
-    # Convert to Base64
     qr_base64 = base64.b64encode(qr_bytes).decode("utf-8")
     return render(request, "mfa_qr.html", {"qr_img": qr_base64})
 
@@ -88,9 +105,6 @@ def handle_suspicious_activity(user):
         recipient_list=[user.email]
     )
 
-
-
-
 def track_failed_login(username):
     try:
         user = User.objects.get(username=username)
@@ -101,7 +115,7 @@ def track_failed_login(username):
     attempt, created = FailedLoginAttempts.objects.get_or_create(user=user)
 
     if attempt.last_attempt_time and attempt.last_attempt_time.date() == now.date():
-        attempt.attempts = F('attempts') + 1
+        attempt.attempts += 1
     else:
         attempt.attempts = 1
 
@@ -198,34 +212,64 @@ def reset_password_view(request):
 
 
 
-def loans_page(request):
-    return render(request, 'loans.html')
-
+@login_required
 def dashboard(request):
-    return render(request, 'index.html')
+    if request.user.is_authenticated:
+        accounts = Accounts.objects.filter(user=request.user)
+    else:
+        accounts = []
+    return render(request, 'index.html', {'accounts':accounts})
 
 @csrf_exempt
-@require_POST
-def loan_request(request):
-    try:
-        data = json.loads(request.body.decode('utf-8'))
-        loan = data.get('loanAmount')
-        assets = data.get('assetValue')
-        income = data.get('income')
+def loan_application(request):
+    result = None
+    if request.method == 'POST':
+        try:
+            loan = float(request.POST.get('loan_amount'))
+            assets = float(request.POST.get('asset_value'))
+            income = request.POST.get('income').lower()
 
-        if loan is None or assets is None or not income:
-            return JsonResponse({'success': False, 'message': 'Invalid input'}, status=400)
+            if loan > assets:
+                result = {'status': 'denied', 'message': 'Loan denied: amount exceeds asset value.'}
+            elif income == 'low' and loan > 1200000:
+                result = {'status': 'denied', 'message': 'Loan denied: exceeds limit for low income.'}
+            elif income == 'medium' and loan > 5000000:
+                result = {'status': 'denied', 'message': 'Loan denied: exceeds limit for medium income.'}
+            else:
+                result = {'status': 'approved', 'message': 'Loan approved!!'}
 
-        if loan > assets:
-            return JsonResponse({'success': False, 'message': 'Loan denied: amount exceeds asset value.'})
+        except Exception:
+            result = {'status': 'error', 'message': 'Invalid input. Please check your entries.'}
 
-        if income == 'low' and loan > 1200000:
-            return JsonResponse({'success': False, 'message': 'Loan denied: exceeds limit for low income.'})
-        elif income == 'medium' and loan > 5000000:
-            return JsonResponse({'success': False, 'message': 'Loan denied: exceeds limit for medium income.'})
+    return render(request, 'loans.html', {'result':result})
 
-        return JsonResponse({'success': True, 'message': 'Loan approved!!'})
-    
-    except json.JSONDecodeError:
-        return JsonResponse({'success': False, 'message': 'Invalid JSON format'}, status=400)
+
+
+@login_required
+def emi_calculator(request):
+    result = None  
+    if request.method == 'POST':
+        try:
+            loan_amount = float(request.POST.get('loan_amount'))
+            annual_rate = float(request.POST.get('annual_rate'))
+            tenure_years = int(request.POST.get('tenure_years'))
+
+            monthly_rate = annual_rate / 12 / 100
+            total_months = tenure_years * 12
+
+            emi = (loan_amount * monthly_rate * (1 + monthly_rate)**total_months) / \
+                  ((1 + monthly_rate)**total_months - 1)
+            total_payment = emi * total_months
+            total_interest = total_payment - loan_amount
+
+            result = {
+                'emi': round(emi, 2),
+                'total_payment': round(total_payment, 2),
+                'total_interest': round(total_interest, 2)
+            }
+        except Exception:
+            result = {'error': 'Invalid input. Please enter valid numbers.'}
+
+    return render(request, 'emi.html', {'result':result})
+
 
