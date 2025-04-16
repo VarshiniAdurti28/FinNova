@@ -33,10 +33,15 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
+<<<<<<< HEAD
 set -gx VIRTUAL_ENV /home/varshini-adurti/DBMS_Lab/FinNova/FinNova/.venv
+=======
+set -gx VIRTUAL_ENV /home/ananya/MyFiles/NITK/Sem4/dbms/Mini_project/final_eval_proper/FinNova/FinNova/.venv
+>>>>>>> 1747fdf2eed5fefd72b9e64317e062d819f744c3
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH
+set -gx VIRTUAL_ENV_PROMPT .venv
 
 # Unset PYTHONHOME if set.
 if set -q PYTHONHOME
@@ -56,7 +61,7 @@ if test -z "$VIRTUAL_ENV_DISABLE_PROMPT"
         set -l old_status $status
 
         # Output the venv prompt; color taken from the blue of the Python logo.
-        printf "%s%s%s" (set_color 4B8BBE) '(.venv) ' (set_color normal)
+        printf "%s(%s)%s " (set_color 4B8BBE) .venv (set_color normal)
 
         # Restore the return status of the previous command.
         echo "exit $old_status" | .
@@ -65,5 +70,4 @@ if test -z "$VIRTUAL_ENV_DISABLE_PROMPT"
     end
 
     set -gx _OLD_FISH_PROMPT_OVERRIDE "$VIRTUAL_ENV"
-    set -gx VIRTUAL_ENV_PROMPT '(.venv) '
 end

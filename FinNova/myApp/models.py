@@ -95,8 +95,6 @@ class LoanApplications(models.Model):
     status = models.CharField(max_length=8, blank=True, null=True)
     application_date = models.DateTimeField(blank=True, null=True)
 
-
-
 class LoanRepayments(models.Model):
     loan = models.ForeignKey(LoanApplications, models.DO_NOTHING)
     repayment_id = models.AutoField(primary_key=True)
