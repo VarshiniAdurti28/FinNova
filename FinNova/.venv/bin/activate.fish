@@ -33,7 +33,7 @@ end
 # Unset irrelevant variables.
 deactivate nondestructive
 
-set -gx VIRTUAL_ENV /home/ananya/MyFiles/NITK/Sem4/dbms/Mini_project/final_eval2/FinNova/FinNova/.venv
+set -gx VIRTUAL_ENV /home/ananya/MyFiles/NITK/Sem4/dbms/Mini_project/final_eval_proper/FinNova/FinNova/.venv
 
 set -gx _OLD_VIRTUAL_PATH $PATH
 set -gx PATH "$VIRTUAL_ENV/"bin $PATH
