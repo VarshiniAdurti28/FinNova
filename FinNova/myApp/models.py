@@ -79,7 +79,7 @@ class FailedLoginAttempts(models.Model):
 
 
 class FraudDetectionLogs(models.Model):
-    transaction = models.ForeignKey('Transactions', models.DO_NOTHING)
+    transaction = models.ForeignKey('Transaction', models.DO_NOTHING)
     log_id = models.AutoField(primary_key=True)
     flagged_reason = models.TextField()
     flagged_at = models.DateTimeField(blank=True, null=True)
@@ -129,13 +129,21 @@ class SuspiciousAdminActivities(models.Model):
     activity_description = models.TextField()
     flagged_at = models.DateTimeField(blank=True, null=True)
 
-class Transactions(models.Model):
-    transaction_id = models.AutoField(primary_key=True)
-    sender_account = models.ForeignKey(Accounts, models.DO_NOTHING, db_column='sender_account')
-    receiver_account = models.ForeignKey(Accounts, models.DO_NOTHING, db_column='receiver_account', related_name='transactions_receiver_account_set')
-    amount = models.DecimalField(max_digits=12, decimal_places=2)
-    transaction_date = models.DateTimeField(blank=True, null=True)
-    status = models.CharField(max_length=7, blank=True, null=True)
+
+class Transaction(models.Model):
+    STATUS_CHOICES = [
+        ('Success', 'Success'),
+        ('Pending', 'Pending'),
+        ('Failed', 'Failed'),
+    ]
+
+    date = models.DateTimeField(auto_now_add=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.CharField(max_length=255)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES)
+
+    def __str__(self):
+        return f"{self.date} - {self.amount} - {self.status}"
 
 
 class UserManager(BaseUserManager):

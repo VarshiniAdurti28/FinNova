@@ -1,39 +1,17 @@
-{%extends 'layout.html'%}
-{%load static%}
-{%block title%}
-    FinNova | Dashboard
-{%endblock%}
-
-{%block scripts%}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-{%endblock%}
-
-{%block styles%}
-
-.btn-sidebar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 58px;
-  background: linear-gradient(to right, #CEB8F0 50%, #7124EF 50%);
-  border-radius: 0.75rem;
-  color: black;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.btn-sidebar:hover {
-  opacity: 0.95;
-  transform: translateY(-1px);
-}
-
-{%endblock%}
-
-
-{%block content%}
+  </head>
+  <!-- <body class="bg-gray-100">
+    <div class="p-6 max-w-[1440px] mx-auto rounded-[45px] bg-gray-100"> -->
+      <body class="bg-gradient-to-r from-indigo-50 to-blue-100"></body>
+      <!-- Header -->
       <header class="flex flex-wrap justify-between items-start gap-6 mb-6">
-        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/07a7ac2fa6cc3b374d189a0b57267bd2595123a5?placeholderIfAbsent=true&apiKey=320f57d6763e44268da2de3a2ad8b2c2" class="w-[300px] h-[150px] mt-[30px] ml-[30px] border-radius-[15px] object-contain" />
+        <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/07a7ac2fa6cc3b374d189a0b57267bd2595123a5?placeholderIfAbsent=true&apiKey=320f57d6763e44268da2de3a2ad8b2c2" class="w-[426px] h-[174px] object-contain" />
 
         
 
@@ -59,32 +37,25 @@
     <!-- Welcome Text -->
     <div class="mb-8">
       <h1 class="text-xl font-medium text-gray-700">Welcome Back,</h1>
-      <h1 class="text-2xl font-bold text-blue-900">{{ user.username }}!</h1> <!-- Bigger Name -->
+      <h1 class="text-2xl font-bold text-blue-900">{{ user.full_name }}!</h1> <!-- Bigger Name -->
     </div>
 
     <!-- Navigation Buttons -->
     <nav class="flex flex-col gap-5 w-full">
-
       <a
-        href="{%url 'myApp:emi_calculator'%}"
-        class="inline-block bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold text-lg px-6 py-4 rounded-2xl shadow-md hover:scale-105 transform transition-all duration-200 text-center"
-        >Calculate your EMI !</a
-      >
-
-      <a
-        href="{%url 'myApp:loan_application'%}"
+        href="#apply"
         class="inline-block bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold text-lg px-6 py-4 rounded-2xl shadow-md hover:scale-105 transform transition-all duration-200 text-center"
         >Apply for a loan</a
       >
 
       <a
-        href="{%url 'myApp:support_tickets'%}"
+        href="#ticket"
         class="inline-block bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold text-lg px-6 py-4 rounded-2xl shadow-md hover:scale-105 transform transition-all duration-200 text-center"
         >Raise a ticket</a
       >
 
       <a
-        href="{%url 'myApp:all_transactions'%}"
+        href="#transaction"
         class="inline-block bg-gradient-to-r from-blue-500 to-blue-700 text-white font-semibold text-lg px-6 py-4 rounded-2xl shadow-md hover:scale-105 transform transition-all duration-200 text-center"
         >Transaction details</a
       >
@@ -108,9 +79,9 @@
             <section class="bg-white p-6 rounded-2xl">
               <h2 class="text-2xl font-bold text-blue-950">User Info</h2>
               <p class="mt-4 text-sm text-black">
-                Username: {{ user.username }}<br />
+                Username: {{ user.full_name }}<br />
                 Email: {{ user.email }}<br />
-                Account Created: {{ user.created_at|date:"M d, Y" }}
+                Account Created: {{ user.date_joined|date:"M d, Y" }}
               </p>
               <button class="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">Edit personal details</button>
             </section>
@@ -190,5 +161,28 @@
   
 </div>
 
-{%endblock%}
 
+    <!-- Reusable Tailwind Classes -->
+    <style>
+  .btn-sidebar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 58px;
+    background: linear-gradient(to right, #CEB8F0 50%, #7124EF 50%);
+    border-radius: 0.75rem;
+    color: black;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+
+  .btn-sidebar:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+  }
+</style>
+
+
+  </body>
+</html>

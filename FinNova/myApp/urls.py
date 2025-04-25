@@ -17,6 +17,9 @@ urlpatterns = [
     path('code_email/', views.code_email, name='code_email'),
     # path('loan-request/', views.loan_request, name='loan_request'),
     path('emi_calculator/', views.emi_calculator, name='emi_calculator'),
+    path('support/', views.support_tickets, name='support_tickets'),
+    path('transactions/', views.all_transactions, name='all_transactions'),
+
     # path('loan-request/', views.loan_request, name='loan_request'),
 
 ]

@@ -1,0 +1,123 @@
+{%extends 'layout.html'%}
+{%load static%}
+{%block title%}
+    FinNova | Support Tickets
+{%endblock%}
+
+
+{%block scripts%}   
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+    function toggleForm() {
+    const form = document.getElementById("ticketForm");
+    form.classList.toggle("hidden");
+    }
+</script>
+{%endblock%}
+
+{%block content%}
+
+    <div class="max-w-6xl mx-auto px-6 py-8 bg-white shadow-2xl rounded-3xl">
+    <!-- Back to Dashboard Button -->
+    <div class="mb-4">
+    <a href="{%url 'myApp:dashboard'%}" class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-800
+    font-medium py-2 px-4 rounded-full shadow transition duration-300">
+    ← Back to Dashboard
+    </a>
+    </div>
+    <h1 class="text-3xl font-extrabold text-blue-800 mb-6 text-center">Support Tickets</h1>
+    <!-- Success Message -->
+    {% if messages %}
+    {% for message in messages %}
+    <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-6">
+    <p class="font-medium">{{ message }}</p>
+    </div>
+    {% endfor %}
+    {% endif %}
+    <div class="overflow-x-auto rounded-lg shadow">
+    <table class="min-w-full divide-y divide-gray-200">
+    <thead class="bg-blue-50">
+    <tr>
+    <th class="px-6 py-3 text-left text-sm font-semibold text-blue-700">Message</th>
+    <th class="px-6 py-3 text-left text-sm font-semibold text-blue-700">Status</th>
+    <th class="px-6 py-3 text-left text-sm font-semibold text-blue-700">Created At</th>
+    <th class="px-6 py-3 text-left text-sm font-semibold text-blue-700">Remark</th>
+    </tr>
+    </thead>
+    <tbody class="bg-white divide-y divide-gray-100">
+    {% for ticket in tickets %}
+    {% comment %} <tr>
+    <td class="px-6 py-4 text-sm text-gray-800">{{ ticket.message }}</td>
+    <td class="px-6 py-4 text-sm font-semibold
+    {% if ticket.status == 'open' %}text-blue-600
+    {% elif ticket.status == 'pending' %}text-yellow-600
+    {% elif ticket.status == 'resolved' %}text-green-600
+    {% endif %}
+    ">{{ ticket.status|title }}</td>
+    <td class="px-6 py-4 text-sm text-gray-600">{{ ticket.created_at|date:"Y-m-d" }}</td>
+    <td class="px-6 py-4 text-sm text-gray-700">{{ ticket.remark|default:"No remarks yet."
+    }}</td>
+    </tr> {% endcomment %}
+
+    <tr>
+        <td class="px-6 py-4 text-sm text-gray-800">{{ ticket.message }}</td>
+      
+        <td class="px-6 py-4 text-sm font-semibold
+          {% if ticket.status == 'open' %}text-blue-600
+          {% elif ticket.status == 'pending' %}text-yellow-600
+          {% elif ticket.status == 'resolved' %}text-green-600
+          {% endif %}
+        ">{{ ticket.status|title }}</td>
+      
+        <td class="px-6 py-4 text-sm text-gray-600">{{ ticket.created_at|date:"Y-m-d" }}</td>
+      
+        <td class="px-6 py-4 text-sm text-gray-700">
+          {% if ticket.remark %}
+            {{ ticket.remark }}
+          {% else %}
+            {% if ticket.status == 'open' %}
+              We have received your issue and will get back to you soon.
+            {% elif ticket.status == 'pending' %}
+              Your issue is being reviewed. Please wait.
+            {% elif ticket.status == 'resolved' %}
+              The issue you reported has been successfully resolved.
+            {% else %}
+              No remarks yet.
+            {% endif %}
+          {% endif %}
+        </td>
+      </tr>
+    {% empty %}
+    <tr>
+    <td colspan="4" class="px-6 py-4 text-center text-sm text-gray-500">No tickets yet.</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+    </div>
+    <div class="mt-8 flex justify-center">
+    <button onclick="toggleForm()" class="bg-blue-600 hover:bg-blue-700 text-white
+    font-semibold py-2 px-6 rounded-full shadow-lg transition duration-300">
+
+        Create New Ticket
+
+  
+    </button>
+    </div>
+    <!-- Ticket Form -->
+    <div id="ticketForm" class="mt-8 hidden bg-blue-50 p-6 rounded-2xl shadow-md">
+    <form method="POST">
+        {%csrf_token%}
+    <label for="message" class="block text-sm font-medium text-blue-800 mb-2">Issue
+    Description:</label>
+    <textarea name="message" id="message" rows="4" class="w-full rounded-lg border
+    border-blue-300 p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+    <button type="submit" class="mt-4 bg-green-600 hover:bg-green-700 text-white
+    font-medium py-2 px-6 rounded-lg transition duration-300">
+    Submit Ticket
+    </button>
+
+</form>
+</div>
+</div>
+{%endblock%}

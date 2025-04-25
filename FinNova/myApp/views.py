@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .models import OtpVerification, FailedLoginAttempts, PasswordResetRequests, User, Accounts
+from .models import OtpVerification, FailedLoginAttempts, PasswordResetRequests, User, Accounts, Transaction
 import random
 import uuid
 import qrcode
@@ -13,6 +13,8 @@ from django.contrib.auth import login, authenticate
 from .forms import LoginForm
 
 import pyotp
+from .models import CustomerSupportTickets
+from django.contrib import messages
 
 import random, string
 from django.http import JsonResponse, HttpResponse, FileResponse
@@ -26,6 +28,35 @@ from django.conf import settings
 import os
 import json
 from django.utils import timezone
+
+@csrf_exempt
+def support_tickets(request):
+    if request.method == 'POST':
+        message = request.POST.get('message', '').strip()
+        user = request.user
+        user_id = user.user_id
+
+        if message and user_id:
+            try:
+                CustomerSupportTickets.objects.create(
+                    user_id=user_id,
+                    message=message,
+                    status='open', 
+                    created_at=timezone.now()
+                )
+                messages.success(request, 'Ticket created successfully!')
+            except Exception as e:
+                messages.error(request, f"Error creating ticket: {e}")
+        else:
+            messages.error(request, 'Message and User ID are required.')
+
+    tickets = CustomerSupportTickets.objects.all().order_by('-created_at')
+    return render(request, 'support_tickets.html', {'tickets': tickets})
+
+
+def all_transactions(request):
+    transactions = Transaction.objects.all().order_by('-date')
+    return render(request, 'all_transactions.html', {'transactions': transactions})
 
 @login_required
 def verify_gcode(request):
