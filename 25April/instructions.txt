@@ -1,9 +1,0 @@
-TASK1: 
-In sidebar,
-on clicking:
-1. apply for loan-> go to loan page designed by Vaibhavi(no changes)
-2. raise a ticket-> go to support tickets  page(designed earlier)
-3.Transaction details-> go to transactions page(newly created-all_transactions.html)
-
-TASK2:
-Also on clicking 'recent transactions' it will take  to  all_transactions.html
