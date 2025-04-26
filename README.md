@@ -30,5 +30,6 @@ The main entities in this system are:
 -	Fraud Log: Maintains records of suspicious login attempts for fraud detection.
 
 ER Diagram:
-![image](https://github.com/user-attachments/assets/1186086a-f176-4004-a1f4-21ed83d5eb27)
+![WhatsApp Image 2025-03-16 at 1 00 47 PM](https://github.com/user-attachments/assets/d46eaa39-91da-49b5-b1bc-adee423d5631)
+
 
