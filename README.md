@@ -7,6 +7,7 @@ With the rapid advancement of digital technology, traditional banking methods ar
 This banking management system is developed to address these challenges and provide a user-centric solution that simplifies and enhances the overall banking experiences. The main objective of the scope of this project encompasses the development of a scalable and interactive web-based banking system primarily targeted at customers seeking a self-service banking experience. While the current version is customer-focused, the design allows for potential expansion to support banking staff and administrative operations.
 Target users of FinNova include individual account holders who require secure access to their banking information, tools to apply for loans, and features to manage transactions independently. The system aims to ensure a smooth and visually appealing interface while maintaining high standards of data security and fraud prevention.
 
+-----
 
 Purpose:
 
@@ -15,11 +16,13 @@ The purpose of FinNova is to modernise and secure the banking experience by:
 -	Streamlining the authentication process for smooth and secure access.
 -	Automating loan request processing to reduce human error and improve efficiency. This system aims to provide a seamless and intuitive banking platform for customers while ensuring data security and operational transparency.
 
+-----
 
 Problem Statement:
 
 Traditional banking systems often rely on manual loan processing, which is time-consuming and prone to errors. There is also a lack of digital pre-scanning mechanisms to access a customer’s loan eligibility in real time. Additionally, many systems fail to provide quick and transparent communication with applicants regarding loan status or approval decisions. FinNova addresses these gaps by automating critical processes and enhancing user interaction through a secure, user-friendly interface.
 
+-----
 
 The main entities in this system are:
 -	User: Stores user-specific information like name, email, contact, login credentials, etc.
@@ -29,7 +32,11 @@ The main entities in this system are:
 -	Admin: Represents authorised personnel who can view and manage user accounts and applications using the backend alone.
 -	Fraud Log: Maintains records of suspicious login attempts for fraud detection.
 
+  
+-----
+
 ER Diagram:
 ![WhatsApp Image 2025-03-16 at 1 00 47 PM](https://github.com/user-attachments/assets/d46eaa39-91da-49b5-b1bc-adee423d5631)
 
 
+-----
