@@ -1,4 +1,6 @@
 # FinNova - An Online Banking Management System
+-----
+-----
 
 
 Introduction:
